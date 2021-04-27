@@ -16,29 +16,45 @@ rules:
   ################################################################
   #                    Capslock to Esc/Hyper                     #
   ################################################################
-  - description: CapsLock to Hyper
+  - description: CapsLock to Hyper (rshk)
     manipulators:
 
       - description: 'capslock = esc(click) | hyper(hold)'
         type: basic
         from: { key_code: caps_lock ,modifiers: { optional: [ any ] } }
         to: [ { key_code: right_shift,modifiers: [ right_command,right_control,right_option ] } ]
-        to_if_alone: [ { key_code: escape } ]
+        # to_if_alone: [ { key_code: escape } ]
+
+      # - description: 'capslock(hold) = hyper(hold)'
+      #   type: basic
+      #   from: { key_code: caps_lock ,modifiers: { optional: [ any ] } }
+      #   to: [ { key_code: right_shift,modifiers: [ right_command,right_control,right_option ] } ]
+      #   to_if_alone: [ { key_code: caps_lock } ]
 
       - description: 'escape = capslock switch'
         type: basic
         from: { key_code: escape, modifiers: { optional: [ caps_lock ], mandatory: [ right_command,right_control,right_shift,right_option ] } }
         to: [ { key_code: caps_lock , modifiers: [ left_control ] } ]
 
-      - description: 'spacebar = language switch'
+      # - description: 'spacebar = language switch'
+      #   type: basic
+      #   from: { key_code: spacebar, modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] } }
+      #   to: [ { key_code: spacebar , modifiers: [ left_control ] } ]
+
+      # - description: 'command + spacebar = emoji'
+      #   type: basic
+      #   from: { key_code: spacebar, modifiers: { mandatory: [ left_command,  right_command,right_control,right_shift,right_option ] } }
+      #   to: [ { key_code: spacebar , modifiers: [ left_control,left_command ] } ]
+
+      - description: 'spacebar = launchpad'
         type: basic
         from: { key_code: spacebar, modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] } }
-        to: [ { key_code: spacebar , modifiers: [ left_control ] } ]
+        to: [ { shell_command: open -a 'Launchpad' } ]
 
-      - description: 'command + spacebar = emoji'
+      - description: 'a = expose all'
         type: basic
-        from: { key_code: spacebar, modifiers: { mandatory: [ left_command,  right_command,right_control,right_shift,right_option ] } }
-        to: [ { key_code: spacebar , modifiers: [ left_control,left_command ] } ]
+        from: { key_code: a, modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] } }
+        to: [ { key_code: up_arrow , modifiers: [ left_control ] } ]
 
 
   ################################################################
@@ -1119,6 +1135,41 @@ rules:
 
 
 
+  ################################################################
+  #                        Hyper Window (custom)                 #
+  ################################################################
+  - description: Hyper Window (rshk)
+    manipulators:
+
+      #==========================================================#
+      # ( tab ) --> win switch                                   #
+      #==========================================================#
+
+      - description: 'tab = alter app'
+        type: basic
+        from: { key_code: tab, modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] } }
+        to: [ { key_code: tab , modifiers: [ left_command ] } ]
+
+      - description: 'shift + tab = alter app (backwawrds)'
+        type: basic
+        from: { key_code: tab, modifiers: { mandatory: [ left_shift,  right_command,right_control,right_shift,right_option ] } }
+        to: [ { key_code: tab , modifiers: [ left_shift, left_command ] } ]
+
+      #==========================================================#
+      # left/right arrows: desktop                               #
+      #==========================================================#
+
+      - description: 'right arrow = desktop right'
+        type: basic
+        from: { key_code: right_arrow, modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] } }
+        to: [ { key_code: right_arrow, modifiers: [ left_control ] } ]
+
+      - description: 'left arrow = desktop left'
+        type: basic
+        from: { key_code: left_arrow, modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] } }
+        to: [ { key_code: left_arrow, modifiers: [ left_control ] } ]
+
+
 
   ################################################################
   #                        Hyper Window                          #
@@ -1243,6 +1294,55 @@ rules:
         from: { key_code: s, modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] } }
         to: [ { key_code: tab , modifiers: [ left_control ] } ]
 
+
+
+  ################################################################
+  #                      Hyper Application (custom)              #
+  ################################################################
+  - description: Hyper Application (rshk)
+    manipulators:
+
+      - description: '1 = chrome'
+        type: basic
+        from:
+          key_code: '1'
+          modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] }
+        to: [ { shell_command: open -a 'Google Chrome' } ]
+
+      - description: '2 = emacs'
+        type: basic
+        from:
+          key_code: '2'
+          modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] }
+        to: [ { shell_command: "/usr/local/bin/emacsclient -c -a '' -n" } ]
+
+      - description: '3 = iTerm2'
+        type: basic
+        from:
+          key_code: '3'
+          modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] }
+        to: [ { shell_command: open -a iTerm } ]
+
+      - description: '4 = Slack'
+        type: basic
+        from:
+          key_code: '4'
+          modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] }
+        to: [ { shell_command: open -a Slack } ]
+
+      - description: '5 = Outlook'
+        type: basic
+        from:
+          key_code: '5'
+          modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] }
+        to: [ { shell_command: open -a 'Microsoft Outlook' } ]
+
+      - description: '6 = Zoom'
+        type: basic
+        from:
+          key_code: '6'
+          modifiers: { mandatory: [ right_command,right_control,right_shift,right_option ] }
+        to: [ { shell_command: open -a 'zoom.us' } ]
 
 
 
